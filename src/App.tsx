@@ -1,12 +1,26 @@
-import "./App.css";
-import UserList from "./UserList";
+// Router sve komponente
 
-function App() {
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import UserList from "./UserList";
+import Albums from "./Albums";
+import Todos from "./Todos";
+import Posts from "./Posts";
+import PostDetails from "./PostDetails";
+import Photos from "./Photos";
+
+const App = () => {
   return (
-    <>
-      <UserList />
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<UserList />} />
+        <Route path="/users/:userId/albums" element={<Albums />} />
+        <Route path="/albums/:albumId/photos" element={<Photos />} />
+        <Route path="/users/:userId/todos" element={<Todos />} />
+        <Route path="/users/:userId/posts" element={<Posts />} />
+        <Route path="/posts/:postId" element={<PostDetails />} />
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;

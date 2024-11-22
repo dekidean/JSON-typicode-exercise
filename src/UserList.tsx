@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 // Definisanje tipova u TypeScriptu
@@ -37,29 +38,9 @@ const UserList = () => {
               <strong>{user.name}</strong> ({user.email})
             </p>
             <p>
-              <a
-                href={`${baseUrl}/users/${user.id}/albums`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Albums
-              </a>{" "}
-              |{" "}
-              <a
-                href={`${baseUrl}/users/${user.id}/todos`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Todos
-              </a>{" "}
-              |{" "}
-              <a
-                href={`${baseUrl}/users/${user.id}/posts`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Posts
-              </a>
+              <Link to={`/users/${user.id}/albums`}>Albums</Link> |{" "}
+              <Link to={`/users/${user.id}/todos`}>Todos</Link> |{" "}
+              <Link to={`/users/${user.id}/posts`}>Posts</Link>
             </p>
           </li>
         ))}
