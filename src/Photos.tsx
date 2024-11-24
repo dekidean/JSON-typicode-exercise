@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import ErrorMessage from "./ErrorMessage";
 
 interface Photo {
   id: number;
@@ -22,9 +23,10 @@ const Photos = () => {
           `https://jsonplaceholder.typicode.com/albums/${albumId}/photos`
         );
         setPhotos(response.data);
-      } catch (err) {
-        console.error("Error fetching photos:", err);
+        setError(null);
+      } catch (error) {
         setError("Failed to fetch photos. Please try again later.");
+        console.error("Error fetching photos:", error);
       }
     };
 
@@ -35,7 +37,7 @@ const Photos = () => {
     <div>
       <h2>Photos</h2>
       {error ? (
-        <p style={{ color: "red" }}>{error}</p>
+        <ErrorMessage message={error} />
       ) : (
         <ul>
           {photos.map((photo) => (

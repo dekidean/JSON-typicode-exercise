@@ -7,6 +7,7 @@ import Todos from "./Todos";
 import Posts from "./Posts";
 import PostDetails from "./PostDetails";
 import Photos from "./Photos";
+import ErrorMessage from "./ErrorMessage";
 
 const App = () => {
   return (
@@ -18,6 +19,10 @@ const App = () => {
         <Route path="/users/:userId/todos" element={<Todos />} />
         <Route path="/users/:userId/posts" element={<Posts />} />
         <Route path="/posts/:postId" element={<PostDetails />} />
+        <Route
+          path="/src/ErrorMessage"
+          element={<ErrorMessage message="Page not found!" />}
+        />
       </Routes>
     </Router>
   );

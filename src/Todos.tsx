@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import ErrorMessage from "./ErrorMessage";
 
 interface Todo {
   id: number;
@@ -13,6 +14,7 @@ interface Todo {
 const Todos = () => {
   const { userId } = useParams<{ userId: string }>();
   const [todos, setTodos] = useState<Todo[]>([]);
+  const [error, setError] = useState<string | null>(null);
   const baseUrl = "https://jsonplaceholder.typicode.com";
 
   useEffect(() => {
@@ -22,7 +24,9 @@ const Todos = () => {
           `${baseUrl}/users/${userId}/todos`
         );
         setTodos(response.data);
+        setError(null);
       } catch (error) {
+        setError("Failed to fetch todos. Please try again later.");
         console.error("Error fetching todos:", error);
       }
     };
@@ -41,20 +45,24 @@ const Todos = () => {
   return (
     <div>
       <h2>Todos</h2>
-      <ul>
-        {todos.map((todo) => (
-          <li key={todo.id}>
-            <label>
-              <input
-                type="checkbox"
-                checked={todo.completed}
-                onChange={() => toggleCompletion(todo.id)}
-              />
-              {todo.title}
-            </label>
-          </li>
-        ))}
-      </ul>
+      {error ? (
+        <ErrorMessage message={error} />
+      ) : (
+        <ul>
+          {todos.map((todo) => (
+            <li key={todo.id}>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={todo.completed}
+                  onChange={() => toggleCompletion(todo.id)}
+                />
+                {todo.title}
+              </label>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };

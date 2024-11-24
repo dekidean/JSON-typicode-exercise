@@ -1,8 +1,10 @@
+// Definisanje tipova u TypeScriptu
+
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import ErrorMessage from "./ErrorMessage";
 
-// Definisanje tipova u TypeScriptu
 interface User {
   id: number;
   name: string;
@@ -11,16 +13,16 @@ interface User {
 
 const UserList = () => {
   const [users, setUsers] = useState<User[]>([]);
+  const [error, setError] = useState<string | null>(null);
   const baseUrl = "https://jsonplaceholder.typicode.com";
 
   useEffect(() => {
-    //  Fecovanje Usera
-
     const fetchUsers = async () => {
       try {
         const response = await axios.get<User[]>(`${baseUrl}/users`);
         setUsers(response.data);
       } catch (error) {
+        setError("Failed to fetch users. Please try again later.");
         console.error("Error fetching users:", error);
       }
     };
@@ -31,6 +33,7 @@ const UserList = () => {
   return (
     <div>
       <h1>User List</h1>
+      {error && <ErrorMessage message={error} />}
       <ul>
         {users.map((user) => (
           <li key={user.id}>

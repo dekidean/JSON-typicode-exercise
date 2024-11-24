@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
+import ErrorMessage from "./ErrorMessage";
 
 interface Post {
   id: number;
@@ -21,8 +22,10 @@ const Posts = () => {
           `https://jsonplaceholder.typicode.com/users/${userId}/posts`
         );
         setPosts(response.data);
-      } catch {
-        setError("Error fetching posts.");
+        setError(null);
+      } catch (error) {
+        setError("Failed to fetch todos. Please try again later.");
+        console.error("Error fetching todos:", error);
       }
     };
 
@@ -33,7 +36,7 @@ const Posts = () => {
     <div>
       <h2>Posts</h2>
       {error ? (
-        <p style={{ color: "red" }}>{error}</p>
+        <ErrorMessage message={error} />
       ) : (
         <ul>
           {posts.map((post) => (
