@@ -4,11 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import ErrorMessage from "./ErrorMessage";
-
-interface Post {
-  id: number;
-  title: string;
-}
+import { Post } from "./models"; // Correct import for Post interface
 
 const Posts = () => {
   const { userId } = useParams<{ userId: string }>();
@@ -18,14 +14,14 @@ const Posts = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get(
+        const response = await axios.get<Post[]>(
           `https://jsonplaceholder.typicode.com/users/${userId}/posts`
         );
         setPosts(response.data);
         setError(null);
       } catch (error) {
-        setError("Failed to fetch todos. Please try again later.");
-        console.error("Error fetching todos:", error);
+        setError("Failed to fetch posts. Please try again later.");
+        console.error("Error fetching posts:", error);
       }
     };
 
@@ -39,7 +35,7 @@ const Posts = () => {
         <ErrorMessage message={error} />
       ) : (
         <ul>
-          {posts.map((post) => (
+          {posts.map((post: Post) => (
             <li key={post.id}>
               <Link to={`/posts/${post.id}`}>{post.title}</Link>
             </li>
