@@ -5,13 +5,12 @@ import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import ErrorMessage from "./ErrorMessage";
 import { Album } from "./models";
+import { baseUrl } from "./config";
 
 const Albums = () => {
   const { userId } = useParams<{ userId: string | undefined }>();
   const [albums, setAlbums] = useState<Album[]>([]);
   const [error, setError] = useState<string | null>(null);
-
-  const baseUrl = "https://jsonplaceholder.typicode.com";
 
   const fetchAlbums = useCallback(async () => {
     if (!userId) return;
@@ -26,7 +25,7 @@ const Albums = () => {
       setError("Failed to fetch albums. Please try again later.");
       console.error("Error fetching albums:", error);
     }
-  }, [userId, baseUrl]);
+  }, [userId]);
 
   useEffect(() => {
     fetchAlbums();
@@ -39,7 +38,7 @@ const Albums = () => {
         <ErrorMessage message={error} />
       ) : (
         <ul>
-          {albums.map((album) => (
+          {albums.map((album: Album) => (
             <li key={album.id}>
               <Link to={`/albums/${album.id}/photos`}>{album.title}</Link>
             </li>

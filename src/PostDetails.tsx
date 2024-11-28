@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Post, Comment } from "./models";
+import { baseUrl } from "./config";
 
 const PostDetails = () => {
   const { postId } = useParams<{ postId: string }>();
@@ -15,12 +16,12 @@ const PostDetails = () => {
     const fetchPostDetails = async () => {
       try {
         const postResponse = await axios.get<Post>(
-          `https://jsonplaceholder.typicode.com/posts/${postId}`
+          `${baseUrl}/posts/${postId}`
         );
         setPost(postResponse.data);
 
         const commentsResponse = await axios.get<Comment[]>(
-          `https://jsonplaceholder.typicode.com/posts/${postId}/comments`
+          `${baseUrl}/posts/${postId}/comments`
         );
         setComments(commentsResponse.data);
       } catch (error) {

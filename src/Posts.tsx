@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import ErrorMessage from "./ErrorMessage";
-import { Post } from "./models"; // Correct import for Post interface
+import { Post } from "./models";
+import { baseUrl } from "./config";
 
 const Posts = () => {
   const { userId } = useParams<{ userId: string }>();
@@ -15,7 +16,7 @@ const Posts = () => {
     const fetchPosts = async () => {
       try {
         const response = await axios.get<Post[]>(
-          `https://jsonplaceholder.typicode.com/users/${userId}/posts`
+          `${baseUrl}/users/${userId}/posts`
         );
         setPosts(response.data);
         setError(null);

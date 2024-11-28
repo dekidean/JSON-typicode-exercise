@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import ErrorMessage from "./ErrorMessage";
 import { Photo } from "./models";
+import { baseUrl } from "./config";
 
 const Photos = () => {
   const { albumId } = useParams<{ albumId: string }>();
@@ -15,7 +16,7 @@ const Photos = () => {
     const fetchPhotos = async () => {
       try {
         const response = await axios.get<Photo[]>(
-          `https://jsonplaceholder.typicode.com/albums/${albumId}/photos`
+          `${baseUrl}/albums/${albumId}/photos`
         );
         setPhotos(response.data);
         setError(null);

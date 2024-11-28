@@ -4,13 +4,13 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import ErrorMessage from "./ErrorMessage";
-import { Todo } from "./models"; // Import Todo interface from models.ts
+import { Todo } from "./models";
+import { baseUrl } from "./config";
 
 const Todos = () => {
   const { userId } = useParams<{ userId: string }>();
   const [todos, setTodos] = useState<Todo[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const baseUrl = "https://jsonplaceholder.typicode.com";
 
   useEffect(() => {
     const fetchTodos = async () => {
