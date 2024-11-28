@@ -4,18 +4,13 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import ErrorMessage from "./ErrorMessage";
-
-interface Todo {
-  id: number;
-  title: string;
-  completed: boolean;
-}
+import { Todo } from "./models";
+import { baseUrl } from "./config";
 
 const Todos = () => {
   const { userId } = useParams<{ userId: string }>();
   const [todos, setTodos] = useState<Todo[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const baseUrl = "https://jsonplaceholder.typicode.com";
 
   useEffect(() => {
     const fetchTodos = async () => {
@@ -34,9 +29,9 @@ const Todos = () => {
     fetchTodos();
   }, [userId]);
 
-  const toggleCompletion = (id: number) => {
-    setTodos((prevTodos) =>
-      prevTodos.map((todo) =>
+  const toggleCompletion = (id: number): void => {
+    setTodos((prevTodos: Todo[]): Todo[] =>
+      prevTodos.map((todo: Todo) =>
         todo.id === id ? { ...todo, completed: !todo.completed } : todo
       )
     );
