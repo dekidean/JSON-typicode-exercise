@@ -3,17 +3,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-
-interface Post {
-  title: string;
-  body: string;
-}
-
-interface Comment {
-  id: number;
-  name: string;
-  body: string;
-}
+import { Post, Comment } from "./models";
+import { baseUrl } from "./config";
 
 const PostDetails = () => {
   const { postId } = useParams<{ postId: string }>();
@@ -24,13 +15,13 @@ const PostDetails = () => {
   useEffect(() => {
     const fetchPostDetails = async () => {
       try {
-        const postResponse = await axios.get(
-          `https://jsonplaceholder.typicode.com/posts/${postId}`
+        const postResponse = await axios.get<Post>(
+          `${baseUrl}/posts/${postId}`
         );
         setPost(postResponse.data);
 
-        const commentsResponse = await axios.get(
-          `https://jsonplaceholder.typicode.com/posts/${postId}/comments`
+        const commentsResponse = await axios.get<Comment[]>(
+          `${baseUrl}/posts/${postId}/comments`
         );
         setComments(commentsResponse.data);
       } catch (error) {
@@ -53,7 +44,7 @@ const PostDetails = () => {
       )}
       <h3>Comments</h3>
       <ul>
-        {comments.map((comment) => (
+        {comments.map((comment: Comment) => (
           <li key={comment.id}>
             <strong>{comment.name}</strong>: {comment.body}
           </li>

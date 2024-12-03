@@ -4,12 +4,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import ErrorMessage from "./ErrorMessage";
-
-interface Photo {
-  id: number;
-  title: string;
-  url: string;
-}
+import { Photo } from "./models";
+import { baseUrl } from "./config";
 
 const Photos = () => {
   const { albumId } = useParams<{ albumId: string }>();
@@ -19,8 +15,8 @@ const Photos = () => {
   useEffect(() => {
     const fetchPhotos = async () => {
       try {
-        const response = await axios.get(
-          `https://jsonplaceholder.typicode.com/albums/${albumId}/photos`
+        const response = await axios.get<Photo[]>(
+          `${baseUrl}/albums/${albumId}/photos`
         );
         setPhotos(response.data);
         setError(null);
@@ -40,7 +36,7 @@ const Photos = () => {
         <ErrorMessage message={error} />
       ) : (
         <ul>
-          {photos.map((photo) => (
+          {photos.map((photo: Photo) => (
             <li key={photo.id}>
               <p>{photo.title}</p>
               <img src={photo.url} alt={photo.title} width="200" />
