@@ -1,36 +1,33 @@
-export interface Photo {
+// src/models.ts
+
+interface GenericModel {
   id: number;
   title: string;
+}
+
+export interface Photo extends GenericModel {
   url: string;
 }
 
-export interface Album {
-  id: number;
-  title: string;
+export interface Album extends GenericModel {
+  userId: number;
 }
 
-export interface User {
-  id: number;
-  name: string;
+export interface User extends GenericModel {
   username: string;
   email: string;
 }
 
-export interface Post {
+export interface Post extends GenericModel {
   userId: number;
-  id: number;
-  title: string;
   body: string;
 }
 
-export interface Comment {
-  id: number;
+export interface Comment extends GenericModel {
   name: string;
   body: string;
 }
 
-export interface Todo {
-  id: number;
-  title: string;
+export interface Todo extends GenericModel {
   completed: boolean;
 }
