@@ -5,7 +5,6 @@ import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import ErrorMessage from "./ErrorMessage";
 import { Album } from "./models";
-import { baseUrl } from "./config";
 
 const Albums = () => {
   const { userId } = useParams<{ userId: string | undefined }>();
@@ -14,6 +13,13 @@ const Albums = () => {
 
   const fetchAlbums = useCallback(async () => {
     if (!userId) return;
+
+    const baseUrl = import.meta.env.VITE_BASE_URL;
+
+    if (!baseUrl) {
+      setError("Base URL is not defined in the environment variables.");
+      return;
+    }
 
     try {
       const response = await axios.get<Album[]>(
